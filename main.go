@@ -131,14 +131,105 @@ func Adduser(users *[]User) {
 func Admin() {
 	var nomor int
 	fmt.Println(
-		"___________________________________________________\n" +
+		"	 ___________________________________________________\n" +
 			"|-----------------Restoran Apa Saja----------------|\n" +
 			"|--------------------------------------------------|\n" +
-			"| 1.List Menu______________________________________|\n" +
-			"| 2.Add Menu_______________________________________|\n" +
-			"| 3.List User______________________________________|\n" +
-			"| 4.List Discount__________________________________|\n" +
+			"| 1.Menu___________________________________________|\n" +
+			"| 3.User___________________________________________|\n" +
+			"| 4.Discount_______________________________________|\n" +
+			"| 5.Logout_________________________________________|\n" +
 			"|__________________________________________________|\n" +
 			"Silahkan Pilih Nomor = ")
 	fmt.Scanln(&nomor)
+
+	switch nomor {
+	case 1:
+		showMenu()
+		break
+	case 2:
+		fmt.Println("Anda Memilih Add Menu")
+		break
+	case 3:
+		fmt.Println("Anda Memilih List User")
+		break
+	case 4:
+		fmt.Println("Anda Memilih List Discount")
+		break
+	case 5:
+		fmt.Println("Anda Memilih Logout")
+		break
+	default:
+		fmt.Println("Input Anda Masukan Tidak Valid")
+		break
+	}
+}
+
+func showMenu() {
+	var number int
+	fmt.Print(
+		"----------------------------------------\n" +
+			"|---------------Menu-------------------|\n" +
+			"|--------------------------------------|\n" +
+			"|--No--|---Nama--|---Harga---|---Jenis-|\n")
+	for index, item := range listMenu {
+		fmt.Printf("| %d | %s | %f | %s |\n", index+1, item.name, item.price, item.tipe)
+	}
+	fmt.Print("|--------------------------------------|\n")
+	fmt.Print(
+		"Option : \n" +
+			"1. Tambah Menu\n" +
+			"2. Edit Menu\n" +
+			"3. Hapus Menu\n" +
+			"4. Exit\n")
+	fmt.Print("Silahkan Pilih Nomor : ")
+	fmt.Scanln(&number)
+	switch number {
+	case 1:
+		tambahMenu()
+		break
+	case 2:
+		fmt.Println("Anda Memilih Edit")
+		break
+	case 3:
+		fmt.Println("Anda Memilih Hapus")
+		break
+	case 4:
+		Admin()
+		break
+	default:
+		fmt.Println("masukan nomor yang valid")
+		showMenu()
+		break
+	}
+}
+
+func tambahMenu() {
+	var menu Food
+	var number int
+	fmt.Print("Tipe Menu : \n" +
+		"1. Food\n" +
+		"2. Makanan\n" +
+		"Silahkan Pilih Nomor Tipe Menu : ")
+	fmt.Scanln(&number)
+	switch number {
+	case 1:
+		menu.tipe = FoodType
+		break
+	case 2:
+		menu.tipe = DrinkType
+		break
+	default:
+		{
+			fmt.Println("masukan nomor yang valid")
+			tambahMenu()
+		}
+	}
+	fmt.Print("Masukan Nama Makanan Atau Minuman : ")
+	fmt.Scanln(&menu.name)
+
+	fmt.Print("Masukan Harga : ")
+	fmt.Scanln(&menu.price)
+
+	listMenu = append(listMenu, menu)
+	showMenu()
 }
