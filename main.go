@@ -51,7 +51,7 @@ const (
 
 type Food struct {
 	name  string
-	price float64
+	price float32
 	tipe  TypeMenu
 }
 
