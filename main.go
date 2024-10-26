@@ -1,7 +1,9 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 // Definisikan variabel global untuk menyimpan daftar user
@@ -50,12 +52,40 @@ const (
 )
 
 type Food struct {
-	name  string
-	price float32
-	tipe  TypeMenu
+	id    string   "json:id"
+	name  string   "json:name"
+	price float32  "json:price"
+	tipe  TypeMenu "json:type"
 }
 
 func main() {
+	db, err := sql.Open("mysql", "daffa:okta54321@tcp(localhost:3306)/golang_mysql")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+	err = db.Ping()
+	if err != nil {
+		panic(err.Error())
+	}
+	defer db.Close()
+
+	listMenusql, err := db.Query("SELECT * FROM food")
+	if err != nil {
+		panic(err.Error())
+	}
+	defer listMenusql.Close()
+	var listMenuFromDb []Food
+	for listMenusql.Next() {
+		var menu Food
+		err = listMenusql.Scan(&menu.id, &menu.name, &menu.price, &menu.tipe)
+		if err != nil {
+			panic(err.Error())
+		}
+		listMenuFromDb = append(listMenuFromDb, menu)
+	}
+
+	fmt.Println(listMenuFromDb, "list")
 	menu() // Memanggil menu utama
 }
 
