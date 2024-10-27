@@ -10,10 +10,10 @@ const (
 )
 
 type Food struct {
-	id    string   "json:id"
-	name  string   "json:name"
-	price float64  "json:price"
-	tipe  TypeMenu "json:type"
+	Id    string   "json:id"
+	Name  string   "json:name"
+	Price float64  "json:price"
+	Tipe  TypeMenu "json:type"
 }
 
 func (food *Food) ListMenu(server *sql.DB) ([]Food, error) {
@@ -27,7 +27,7 @@ func (food *Food) ListMenu(server *sql.DB) ([]Food, error) {
 
 	for result.Next() {
 		var food Food
-		err = result.Scan(&food.name, &food.id, &food.price, &food.tipe)
+		err = result.Scan(&food.Id, &food.Name, &food.Price, &food.Tipe)
 		if err != nil {
 			return nil, err
 		}
